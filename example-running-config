@@ -1,0 +1,48 @@
+!
+service password-encryption
+!
+dot11 ssid SSID-NAME-HERE
+ authentication key-management wpa version 2
+ mbssid SSID-NAME-HERE
+ wpa-psk ascii PASSWORDGOESHERE
+!
+interface vSwitch 1
+ ip address 192.168.20.1 255.255.255.0
+!
+interface vSwitch 2
+!
+interface vSwitch 3
+ description WIFI
+!
+interface Ethernet 0/0
+ vSwitch-group 1
+!
+interface Ethernet 0/1
+!
+interface Ethernet 0/1.166
+ vSwitch-group 3
+!
+interface Ethernet 0/2
+!
+interface Ethernet 0/3
+ vSwitch-group 1
+!
+interface Tether 0
+ description "Android USB Tethering (most Cellphones, some Radios)"
+!
+interface WiFi 0
+ hardware "802.11 n WLAN (Unsupported)"
+ ip address 10.8.166.100 255.255.255.0
+ ip helper-address 10.8.166.10
+ ssid SSID-NAME-HERE
+ vSwitch-group 3
+ wifi mode access-point
+!
+vm epc
+ uuid 12345678-1234-1234-1234-123456789012
+ hdd bind 1 KlasOS.keel.[someversion]_epc[someversion].qcow2
+ cpu 2
+ ram 2048
+ nic 1 vSwitch 1 mac 52:54:00:12:34:56 type virtio
+ nic 2 vSwitch 2 mac 52:54:00:78:90:ab type virtio
+ start
