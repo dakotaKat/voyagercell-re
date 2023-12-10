@@ -14,8 +14,6 @@ interface Ethernet 0/0
 !
 clock timezone UTC 0 0
 !
-no lte enable
-!
 vm ip 192.168.20.1
 !
 ip default-gateway 192.168.20.1
