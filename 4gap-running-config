@@ -1,0 +1,21 @@
+!
+enodeb configuration
+ bandwidth 10
+ enodebid 69
+ mme ip 192.168.20.2
+ pci 51
+ plmnid 001-04
+ switch-high attn 6
+ switch-low attn 81
+ tac 1337
+!
+interface Ethernet 0/0
+ ip address 192.168.20.20 255.255.255.0
+!
+clock timezone UTC 0 0
+!
+no lte enable
+!
+vm ip 192.168.20.1
+!
+ip default-gateway 192.168.20.1
