@@ -1,0 +1,32 @@
+the "good running config"
+
+three networks at play here:
+
+vSwitch 1, the LTE Core LAN
+ 192.168.20.0/24
+
+the eNodeB sits at .20, Raemis sits at .55 via one NIC static.
+eNodeB connects physically in the unit to Ethernet 0/3.
+
+vSwitch 2, the AppUser LAN
+ 192.168.1.0/24
+
+this network hosts the front-end for Raemis, the VoyagerCell for VNC access to VMs, and dumps out all LTE devices into it as clients inside this subnet. basically everyone's LAN.
+
+vSwitch 3, the WAN
+ dhcp, connected to Ethernet 0/1.
+
+VMs running:
+ core-router
+  this is just opnsense as simple as can be: one NIC is on vSwitch 3 to serve WAN, one nic is on vSwitch 2 to serve appuser LAN.
+
+ raemis
+  the star of the show
+
+ pbx
+  interconnect for VoLTE to the world
+
+WiFi config:
+ ssid, wpa2 password, dumps into AppUser LAN.
+
+everything relies on opnsense being up, naturally.
