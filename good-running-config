@@ -1,0 +1,62 @@
+!
+hostname vc01.nubpack.nubtel.co
+!
+dot11 ssid nubPack
+ authentication key-management wpa version 2
+ mbssid nubPack
+ wpa-psk ascii correct-horse-battery-staple
+!
+interface vSwitch 1
+ description "LTE Core LAN"
+ ip address 192.168.20.1 255.255.255.0
+!
+interface vSwitch 2
+ description "AppUser LAN"
+ ip address 192.168.1.2 255.255.255.0
+!
+interface vSwitch 3
+ description "WAN Port"
+!
+interface Ethernet 0/0
+ description "0/0 LAN Access"
+ vSwitch-group 2
+!
+interface Ethernet 0/1
+ description "0/1 WAN Access"
+ vSwitch-group 3
+!
+interface Ethernet 0/2
+!
+interface Ethernet 0/3
+ description "4GAP Port"
+ vSwitch-group 1
+!
+interface WiFi 0
+ hardware "802.11 n WLAN (Unsupported)"
+ ssid nubPack
+ vSwitch-group 2
+ wifi mode access-point
+!
+vm core-router
+ hdd bind 1 core-router.img type virtio
+ cpu 2
+ ram 4096
+ nic 1 vSwitch 3 type virtio
+ nic 2 vSwitch 2 type virtio
+ start
+!
+vm nubtel
+ uuid [redacted for licensing]
+ hdd bind 1 raemis_centos_nubtel_v4.5.qcow2 type virtio
+ cpu 4
+ ram 8192
+ nic 1 vSwitch 1 mac [redacted for licensing] type virtio
+ nic 2 vSwitch 2 mac [redacted for licensing] type virtio
+ start
+!
+vm pbx
+ hdd bind 1 pbx.img type virtio
+ cpu 2
+ ram 2048
+ nic 1 vSwitch 1 type virtio
+ start
